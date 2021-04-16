@@ -120,9 +120,11 @@ class User {
     this.favorites = favorites.map(s => new Story(s));
     this.ownStories = ownStories.map(s => new Story(s));
 
+    //  Iterating through favorites story array and setting favorite property on each story to true; **/
     // store the login token on the user so it's easy to find for API calls.
     this.loginToken = token;
   }
+
 
   /** Register new user in API, make User instance & return it.
    *
@@ -205,5 +207,42 @@ class User {
       console.error("loginViaStoredCredentials failed", err);
       return null;
     }
+  }
+
+  //** add story to user favorites array */
+  async addFavorite(story) {
+    //https://hack-or-snooze-v3.herokuapp.com/users/username/favorites/storyId
+
+    const token = this.loginToken;
+    // debugger;
+    const response = await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: "POST",
+      data: { token }
+    });
+    console.log(response);
+
+    this.favorites.push(story);
+    console.log(this.favorites);
+  }
+
+  //**Removes a story from favorite array */
+  async removeFavorite(story) {
+    //https://hack-or-snooze-v3.herokuapp.com/users/username/favorites/storyId
+    const token = this.loginToken;
+    // debugger;
+    const response = await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: "DELETE",
+      data: { token }
+    });
+    console.log(response);
+    let favorites = this.favorites;
+    for (let i = 0; i < favorites.length; i++) {
+      if (favorites[i].storyId === story.storyId) {
+        favorites.splice(i, 1);
+      }
+    }
+    console.log(this.favorites);
   }
 }
