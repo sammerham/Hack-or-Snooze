@@ -7,9 +7,12 @@ const $body = $("body");
 const $storiesLoadingMsg = $("#stories-loading-msg");
 const $allStoriesList = $("#all-stories-list");
 
+const $storySubmitForm = $(".story-submit-form");
 const $loginForm = $("#login-form");
 const $signupForm = $("#signup-form");
+const $formStorySubmitButton = $("#story-submit-button");
 
+const $submitNav = $("#nav-submit");
 const $navLogin = $("#nav-login");
 const $navUserProfile = $("#nav-user-profile");
 const $navLogOut = $("#nav-logout");

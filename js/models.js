@@ -83,13 +83,15 @@ class StoryList {
       data: {
         token: userToken,
         story: {
-          title: title,
-          author: author,
-          url: url
+          title,
+          author,
+          url
         }
       }
     });
-    return new Story(response.data.story)
+    const story = new Story(response.data.story);
+    this.stories.unshift(story);
+    return story;
   }
 }
 /******************************************************************************
