@@ -15,7 +15,7 @@ function navAllStories(evt) {
 $body.on("click", "#nav-all", navAllStories);
 
 /** Show login/signup on click on "login" */
-
+//TODO: show favorites when logging in
 function navLoginClick(evt) {
   console.debug("navLoginClick", evt);
   hidePageComponents();

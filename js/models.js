@@ -243,9 +243,9 @@ let {user} = response.data;
     let favorites = this.favorites;
     for (let i = 0; i < favorites.length; i++) {
       if (favorites[i].storyId === story.storyId) {
-        favorites.splice(i, 1);
+        favorites.splice(i, 1); //option: use filter
       }
     }
-    console.log(this.favorites);
+    console.log(this.favorites); //note the log
   }
 }

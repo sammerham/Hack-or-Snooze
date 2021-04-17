@@ -18,7 +18,7 @@ async function getAndShowStoriesOnStart() {
  *
  * Returns the markup for the story.
  */
-
+//TODO: remove hearts if not logged in
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
   // icon for favorite/not favorite (solid)/(outline)
@@ -28,13 +28,13 @@ function generateStoryMarkup(story) {
   //i think it taking the story.id (which is string of numbers) and using it as a key
   //it is taking that key and seeing if the key (of id) is a key in favorties (which is not)
   //(story.storyId in currentUser.favorites) ? "fas" : "far" //will return no so "far"
-  let iconStyle = favIconStyle(story);
+  let iconStyle = generatefavIconStyle(story);
   console.log(iconStyle);
   const hostName = story.getHostName();
   return $(`
    
   <li id="${story.storyId}">
-  <span style="font-size: 0.85em"><i class="${iconStyle} fa-heart" id="heart-icon"></i></span> 
+  <span style="font-size: 0.85em"><i class="${iconStyle} fa-heart"></i></span> 
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -83,7 +83,8 @@ async function submitAndShowNewStory(evt) {
 $formStorySubmitButton.on("click", submitAndShowNewStory);
 
 //make a page full of favorite stories
-async function generateFavStoryPage() {
+//TODO: refactor, move to nav js, 
+function generateFavStoryPage() {
   //hide other forms/pages
   //create new page of only favorited stories
   //loop through user.favorites array and generate the html markup
@@ -107,7 +108,8 @@ async function generateFavStoryPage() {
 //loop through the currentUser.favorite array, if array includes passed story then use "fas", otherwise use "far"
 //then return "fas" else "far"
 //rn story = object in storyList
-function favIconStyle(story) {
+//TODO: .find inplace of loop
+function generateFavIconStyle(story) {
   if (currentUser === undefined) {
     return "far";
   }
@@ -133,6 +135,7 @@ async function toggleFavorites(evt) {
   //loop through storyList.stories, give key of story
   //if story.storyId === storyId;
   //clickedStory = story
+  //TODO: use .find()
   for (let story of storyList.stories) {
     if (story.storyId === clickedStoryId) {
       clickedStory = story;
@@ -144,17 +147,16 @@ async function toggleFavorites(evt) {
   // for(let favStory of currentUser.favorites)
   //   if (favStory.storyId === storyId){
   if (iconClass) {
-    $(evt.target).toggleClass("fas").toggleClass("far");
     await currentUser.removeFavorite(clickedStory);
   } else {
-    $(evt.target).toggleClass("far").toggleClass("fas");
     await currentUser.addFavorite(clickedStory)
   }
+  $(evt.target).toggleClass("far fas"); //order of result isimportant, try to do logic frst before UI update
 }
 
 //onlick for icon is the toggle
 
 $favNavLink.on("click", generateFavStoryPage);
-$("body").on("click", "#heart-icon", toggleFavorites)
+$("body").on("click", ".fa-heart", toggleFavorites)
 
 //might need an event delegator?
