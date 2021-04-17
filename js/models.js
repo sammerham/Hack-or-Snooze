@@ -139,6 +139,8 @@ class User {
       method: "POST",
       data: { user: { username, password, name } },
     });
+    
+let {user} = response.data;
 
     return new User(
       {
@@ -212,7 +214,7 @@ class User {
   //** add story to user favorites array */
   async addFavorite(story) {
     //https://hack-or-snooze-v3.herokuapp.com/users/username/favorites/storyId
-
+    console.log("addFavortie story", story);
     const token = this.loginToken;
     // debugger;
     const response = await axios({
@@ -231,6 +233,7 @@ class User {
     //https://hack-or-snooze-v3.herokuapp.com/users/username/favorites/storyId
     const token = this.loginToken;
     // debugger;
+    console.log("removedFavortie story", story);
     const response = await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       method: "DELETE",
